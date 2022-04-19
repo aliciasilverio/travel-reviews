@@ -13,6 +13,14 @@ Node.js / Express
 
 MongoDB
 
+## Models
+Location: string
+
+Experience: string
+
+Recommended: boolean
+
+Image: image
 
 ## MVP:
 - A working full-stack application, using the MERN stack
