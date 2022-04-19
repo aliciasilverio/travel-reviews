@@ -2,8 +2,17 @@
 
 Post about the places you’ve travelled to and enjoyed as well as the places to avoid.
 
-## Tech Stack: 
-MERN
+## Technologies: 
+HTML/CSS
+
+Javascript
+
+React
+
+Node.js / Express
+
+MongoDB
+
 
 ## MVP:
 - A working full-stack application, using the MERN stack
