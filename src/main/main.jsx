@@ -1,100 +1,85 @@
 import React, {useState, useEffect} from 'react'
-import SingleTrip from './single/singleTravel';
+import SingleTrip from './single/singleTrip';
 import NewPlaceTravelled from './new/newTrip'; 
 const MainPageComponent = () => {
-    // const [mainPage, setmainPage] = useState();
-    const [trips, setTrips] = useState([])
-    const[newTripServerError, setNewTripServerError] = useState("")
+    const [trips, setTrips] = useState([]);
+    const getTravels = async () => {
+      try {
+        const travels = await fetch ("http://localhost:3000/trips");
+        const parsedTravels = await travels.json();
+        setTrips(parsedTravels.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  
+    const deleteTrip = async (idToDelete) => {
+      try {
+        const apiResponse = await fetch(`http://localhost:3000/trips/${idToDelete}`, {
+          method: "DELETE"
+        })
+        const parsedResponse = await apiResponse.json();
+        if(parsedResponse.success){
+          const newTravels = trips.filter(travel=> travel._id !== idToDelete);
+          setTrips(newTravels);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+      console.log("deleting travel ID");
+    }
+  
     const createNewTrip = async (newTrip) => {
-        console.log(newTrip);
-        console.log("Let's Create This")
-        
-        //send request to back-end
-        const apiResponse = await fetch("http://localhost:3000/", {
+      const apiResponse = await fetch("http://localhost:3000/trips", {
         method: "POST",
         body: JSON.stringify(newTrip),
         headers: {
-            "Content-Type": "application/json"
+          "Content-Type": "application/json"
         }
-        })
-        //parse the response
-        const parsedResponse = await apiResponse.json()
-        //if successful add item to state
-        console.log(parsedResponse)
-        if(parsedResponse.success){
-            setTrips([...trips, newTrip])
-        }else{
-            setNewTripServerError(parsedResponse.data)
-            //show error message in form
-        }            
+      });
+  
+      const parsedResponse = await apiResponse.json();
+  
+      if(parsedResponse.success){
+        setTrips([parsedResponse.data, ...trips]);
+      }
     }
-     //delete aspect of route
-     const deleteTrip = async (idToDelete) => {
-        try{ 
-            //send request to back end
-            const apiResponse = await fetch(`http://localhost:3000/${idToDelete}`, {   
-            method: 'DELETE'
-            })
-            //parse response
-            const parsedResponse = await apiResponse.json()
-            if(parsedResponse.success){
-                const newTrip = trips.filter(trip => trip._id !== idToDelete)
-                setTrips(newTrip)
-            }
-            else{
-                //TODO
-            }
-            console.log(parsedResponse)
-        }catch(err){
-            console.log(err)
+  
+    const updateTrip = async(idToUpdate, tripToUpdate) => {
+      const apiResponse = await fetch(`http://localhost:3000/trips/${idToUpdate}`, {
+        method: "PUT",
+        body: JSON.stringify(tripToUpdate),
+        headers: {
+          "Content-Type": "application/json"
         }
-        console.log("deleting item ID" + idToDelete)
-       
-         
+      })
+  
+      const parsedResponse = await apiResponse.json();
+  
+      if(parsedResponse.success){
+        const newTrips = trips.map(travel=> travel._id === idToUpdate ? tripToUpdate : travel);
+        setTrips(newTrips);
+      }
     }
-    const updateTrip = async (idToUpdate, tripToUpdate) => {
-        const apiResponse = await fetch(`http://localhost:3000/${idToUpdate}`, {
-            method: "PUT",
-            body: JSON.stringify(tripToUpdate),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            const parsedResponse = await apiResponse.json();
-        if(parsedResponse.success){
-        //one line version that uses a function to check the item to see if its the one to update, if not send old version
-            const newTrip = trips.map(trip => trip._id === idToUpdate ? tripToUpdate : trip)
-            setTrips(newTrip)
-        }else{
-            //TODO
-        }
-            
-        }
-    const getTrips = async () => {
-        try{
-            const trips = await fetch("http://localhost:3000/")
-            const parsedTrips = await trips.json();
-            setTrips(parsedTrips.data)
-
-        }catch(err){
-            console.log(err)
-        }
-    }
-    useEffect(()=>{getTrips()}, [])
+  
+    useEffect(() => {
+      getTravels()
+    }, []);
+  
     return (
-        <div>
+      <div>
         <NewPlaceTravelled
-            newTripServerError={newTripServerError}
-            createNewTrip={createNewTrip}>
+          createNewTrip={createNewTrip}>
         </NewPlaceTravelled>
-        <br></br>
-        <br></br>
-        {trips.map((trip)=> {
-            return <SingleTrip key ={trip._id} trip={trip} updateTrip={updateTrip} deleteTrip={deleteTrip}></SingleTrip>
+        {trips.reverse().map(travel => {
+          return <SingleTrip 
+              key={travel._id}
+              trips={travel}
+              deleteTrip={deleteTrip}
+              updateTrip={updateTrip}>
+            </SingleTrip>
         })}
-        </div>
-        )
-    
-
+      </div>
+    )
 }
 export default MainPageComponent

@@ -6,7 +6,7 @@ import MainPageComponent from './main/main';
 function App() {
   return (
     <div className="App">
-      <h1>Tell me about your Vacay!</h1>
+      <h1>Travel Reviews</h1>
       <MainPageComponent></MainPageComponent>
     </div>
   );

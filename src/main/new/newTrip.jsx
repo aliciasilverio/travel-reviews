@@ -1,74 +1,86 @@
-import { Button, Form, FormGroup, FormLabel } from 'react-bootstrap';
+import { Button, Form, FormGroup, FormLabel, Modal } from 'react-bootstrap';
 import { useState } from "react";
 
 
 const NewPlaceTravelled = (props) => { // New Trip Component
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     const [showing, setShowing] = useState(false)
-    const [newTrip, setNewTrip] = useState({
-        image: "",
-        location: "", //name
-        experience: "", //experience
-        unitClass: "", //unitClass
-    })
-    //function that will shift between showing not showing, gets called in buttons on click
-
-    //tracks valid state, can be used for multiple functions regarding validation and testing
     const [isValidState, setIsValidState] = useState({valid: true, message: ""})
-//keeps track of changes in the form field, and logs them in state
+    // 1. function that setShowing function as TRUE! = !true when clicked on 
+    const toggleShowing = () => {
+        // 2. set variable to the opposite
+        setShowing(!showing)
+    }
+    
+    const [newTrip, setNewTrip] = useState({
+      tripName: "",  
+      image: "",
+      location: "",
+      experience: "",
+    })
+  
     const handleInputChange = (e) => {
-        setNewTrip({
-            ...newTrip,
-            [e.target.name]: e.target.value
-        })
+      setNewTrip({
+        ...newTrip,
+        [e.target.name]: e.target.value
+      })
     }
-    //this function prevents the page from refreshing and chesks whether or not the state is valid before allowing the creation of a new Trip
-    const submitNewTrip = (e) =>{
-        e.preventDefault()
-        let validSubmission = true;
-        if(validSubmission){
-        props.createNewTrip(newTrip)
-        setNewTrip({
-            image: "",
-            location: "",
-            experience: "",
-            unitClass: "",
-        })
-        setIsValidState({
-            valid: true,
-            message:""
-        })
-        setShowing(false);
-        }
+  
+    const submitNewTrip = (e) => {
+      e.preventDefault();
+  
+      props.createNewTrip(newTrip);
+      setNewTrip({
+        tripName: "",
+        image: "",
+        location: "",
+        experience: "",
+      });
+  
+      setShowing(false);
     }
-    return (
-        <>
-        {
-            showing 
-            ?
+  
+    return(
+      <>
 
-            
-            <div id ="new-trip-form">
-                <Button onClick={toggleShowing}>Close</Button>
-                <Form onSubmit={submitNewTrip}>
-                    {isValidState.valid ? null: <p className="form-error">{isValidState.message}</p>}
-                    {props.newTripServerError ? <p className="form-error">{props.newTripServerError}</p> : null}
-                    Image: <input required onChange ={handleInputChange} type = "text" name ="image" value={newTrip.image}/>                    
-                    Location: <input required onChange ={handleInputChange} type = "text" name ="location" value={newTrip.name}/>
-                    Experience: <input required onChange ={handleInputChange} type = "text" name ="experience" value={newTrip.experience}/>
-                    {/* Unit Class: <input required onChange ={handleInputChange} type = "text" name ="unitClass" value={newTrip.unitClass}/>
-                    Joins: <input required onChange ={handleInputChange} type = "text" name ="joins" value={newTrip.joins}/>
-                    Bio: <input required onChange ={handleInputChange} type = "text" name ="bio" value={newTrip.bio}/> */}
-
-                    <br></br>
-                <Button type="submit">Submit</Button>
-                </Form>
-               
-        </div>
-        :
-        <Button onClick={toggleShowing}>Create New Trip</Button>
-        }
-        </>
+<div class="section-head col-sm-12">
+            </div>
+            <Button variant="primary" onClick={handleShow} className="button">
+                Add your Trip
+            </Button>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Tell me about your Trip!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={props.createNewSnack}>
+                        {isValidState.valid ? null : <p className="form-error">{isValidState.message}</p>}
+                        {props.newItemServerError ? <p className="form-error">{props.newItemsServerError}</p> : null}
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Trip Name:</Form.Label>
+                            <Form.Control onChange={handleInputChange} value={newTrip.tripName} type="text" name="tripName"/>
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Image URL:</Form.Label>
+                            <Form.Control onChange={handleInputChange} value={newTrip.image} type="text" name="image"/>
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Location:</Form.Label>
+                            <Form.Control onChange={handleInputChange} value={newTrip.location} type="text" name="location"/>
+                        </Form.Group>
+                         <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Experience</Form.Label>
+                            <Form.Control as="textarea" onChange={handleInputChange} value={newTrip.experience} type="number" name="experience"/>
+                        </Form.Group>
+                        <Button type="submit" onClick={handleClose}>
+                            Submit
+                        </Button>
+                    </Form>
+                </Modal.Body>
+            </Modal>
+      </>
     )
-}
-//export for use in main page
+  }
 export default NewPlaceTravelled; 
