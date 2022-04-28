@@ -14,11 +14,11 @@ Node.js / Express
 MongoDB
 
 ## Models
+tripName: string
+
 Location: string
 
 Experience: string
-
-Recommended: boolean
 
 Image: image
 
@@ -30,3 +30,4 @@ Image: image
 ## Stretch goals: 
 - Implement Trip Advisor API
 - User Sign in
+- add a Recommended: boolean
