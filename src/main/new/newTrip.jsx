@@ -46,15 +46,6 @@ const NewPlaceTravelled = (props) => { // New Trip Component
       <>
 
 <div className=''>
-            </div>
-            <Button variant="light" onClick={handleShow} className="add-your-button">
-                Add your Trip
-            </Button>
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header className='new-trip-head' closeButton>
-                    <Modal.Title >Tell me about your Trip!</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className='new-body'>
                     <Form onSubmit={submitNewTrip}>
                         {isValidState.valid ? null : <p className="form-error">{isValidState.message}</p>}
                         {props.newItemServerError ? <p className="form-error">{props.newItemsServerError}</p> : null}
@@ -74,12 +65,11 @@ const NewPlaceTravelled = (props) => { // New Trip Component
                             <Form.Label>Experience</Form.Label>
                             <Form.Control as="textarea" onChange={handleInputChange} value={newTrip.experience} type="number" name="experience"/>
                         </Form.Group>
-                        <Button type="submit" variant="outline-dark" onClick={handleClose}>
+                        <Button type="submit" variant="light" onClick={handleClose}>
                             Submit
                         </Button>
                     </Form>
-                </Modal.Body>
-            </Modal>
+                </div>
       </>
     )
   }
