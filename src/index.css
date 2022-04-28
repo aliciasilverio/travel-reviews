@@ -7,6 +7,41 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.App {
+  background-color: #FFF5EB;
+  padding: 40px;
+}
+
+.h1-area {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 300%;
+  color: white;
+}
+
+.top-area {
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 25px;
+  border: 2px solid white;
+  padding: 20px;
+  background-color: #DEEDF0;
+}
+
+.new-trip-head {
+  background-color: #DEEDF0;
+}
+
+.new-body {
+  background-color: white
+}
+
+.bottom-section {
+  background-color: #FFF5EB;
+  padding: 100%;
+}
+
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

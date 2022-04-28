@@ -5,7 +5,7 @@ const MainPageComponent = () => {
     const [trips, setTrips] = useState([]);
     const getTravels = async () => {
       try {
-        const travels = await fetch ("http://localhost:3000/trips");
+        const travels = await fetch ("http://localhost:3000/trips/");
         const parsedTravels = await travels.json();
         setTrips(parsedTravels.data);
       } catch (err) {
@@ -15,7 +15,7 @@ const MainPageComponent = () => {
   
     const deleteTrip = async (idToDelete) => {
       try {
-        const apiResponse = await fetch(`http://localhost:3000/trips/${idToDelete}`, {
+        const apiResponse = await fetch(`http://localhost:3000/trips/${idToDelete}/`, {
           method: "DELETE"
         })
         const parsedResponse = await apiResponse.json();
@@ -30,7 +30,7 @@ const MainPageComponent = () => {
     }
   
     const createNewTrip = async (newTrip) => {
-      const apiResponse = await fetch("http://localhost:3000/trips", {
+      const apiResponse = await fetch("http://localhost:3000/trips/", {
         method: "POST",
         body: JSON.stringify(newTrip),
         headers: {
@@ -46,7 +46,7 @@ const MainPageComponent = () => {
     }
   
     const updateTrip = async(idToUpdate, tripToUpdate) => {
-      const apiResponse = await fetch(`http://localhost:3000/trips/${idToUpdate}`, {
+      const apiResponse = await fetch(`http://localhost:3000/trips/${idToUpdate}/`, {
         method: "PUT",
         body: JSON.stringify(tripToUpdate),
         headers: {

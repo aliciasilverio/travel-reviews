@@ -45,17 +45,17 @@ const NewPlaceTravelled = (props) => { // New Trip Component
     return(
       <>
 
-<div class="section-head col-sm-12">
+<div className=''>
             </div>
-            <Button variant="primary" onClick={handleShow} className="button">
+            <Button variant="light" onClick={handleShow} className="add-your-button">
                 Add your Trip
             </Button>
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Tell me about your Trip!</Modal.Title>
+                <Modal.Header className='new-trip-head' closeButton>
+                    <Modal.Title >Tell me about your Trip!</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <Form onSubmit={props.createNewSnack}>
+                <Modal.Body className='new-body'>
+                    <Form onSubmit={submitNewTrip}>
                         {isValidState.valid ? null : <p className="form-error">{isValidState.message}</p>}
                         {props.newItemServerError ? <p className="form-error">{props.newItemsServerError}</p> : null}
                         <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -74,7 +74,7 @@ const NewPlaceTravelled = (props) => { // New Trip Component
                             <Form.Label>Experience</Form.Label>
                             <Form.Control as="textarea" onChange={handleInputChange} value={newTrip.experience} type="number" name="experience"/>
                         </Form.Group>
-                        <Button type="submit" onClick={handleClose}>
+                        <Button type="submit" variant="outline-dark" onClick={handleClose}>
                             Submit
                         </Button>
                     </Form>
